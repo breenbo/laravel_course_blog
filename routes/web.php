@@ -39,9 +39,6 @@ Route::get(
             'post' => $post
             ]
         );
-        //
-        // add contraint to url -> land to 404 if regexp not true
-        //
     }
 );
 

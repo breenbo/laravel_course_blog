@@ -1,48 +1,16 @@
-<!DOCTYPE html>
+@props(['posts'])
 
-<title>My Blog</title>
-<head>
-<style>
-    body {
-        max-width: 600px;
-        margin: auto;
-        font-family: Arial, Helvetica, sans-serif;
-    }
+<x-layout>
+    <!-- include the partial for the header -->
+    @include('_posts-header')
 
-    p {
-        line-height: 1.5;
-    }
+        <main class="max-w-6xl mx-auto mt-6 lg:mt-20 space-y-6">
 
-    article + article {
-        margin-top: 2em;
-        border-top: 1px solid #ccc;
-        padding-top: 2em;
-    }
+        @if ($posts->count())
+            <x-posts-grid :posts="$posts"/>
+        @else
+            <p class="text-center">No posts yet.</p>
+        @endif
 
-
-</style>
-</head>
-
-<body>
-@foreach ($posts as $post)
-    <article>
-        <h1>
-            <a href="/posts/{{ $post->slug }}">
-                {{ $post->title }}
-            </a>
-        </h1>
-        <p>By
-            <span>
-                <a href="/authors/{{ $post->author->username}}">{{ $post->author->name }}</a>
-            </span>
-            in
-            <span>
-                <a href="/categories/{{ $post->category->slug}}">{{ $post->category->name}}</a>
-            </span>
-        </p>
-        <p>
-            {{ $post->excerpt }}
-        </p>
-    </article>
-@endforeach
-</body>
+        </main>
+</x-layout>
