@@ -16,42 +16,58 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// named route
 Route::get(
     '/', function () {
         return view(
             'posts', [
-            'posts' => Post::latest()->get()
+                //
+                // pass data through routes
+                //
+                'posts' => Post::latest()->get(),
+                'categories' => Category::all()
             ]
         );
     }
-);
+)-> name('home');
 
-//
-// {post} is a variable called slug, and used in the callback function
-//
-Route::get(
-    'posts/{post:slug}', function (Post $post) {
-        //
-        // Find a post by slug and pass it to a view called "post"
+    //
+    // {post} is a variable called slug, and used in the callback function
+    //
+    Route::get(
+        'posts/{post:slug}', function (Post $post) {
+            //
+            // Find a post by slug and pass it to a view called "post"
 
-        return view(
-            'post', [
-            'post' => $post
-            ]
-        );
-    }
-);
-
-
-Route::get(
-    'categories/{category:slug}', function (Category $category) {
-        return view('posts', ['posts' => $category->posts]);
-    }
-);
+            return view(
+                'post', [
+                'post' => $post
+                ]
+            );
+        }
+    );
 
 
-Route::get(
-    'authors/{author:username}', function (User $author) {
-        return view('posts', ['posts' => $author->posts]);
-    }
-);
+    Route::get(
+        'categories/{category:slug}', function (Category $category) {
+            return view(
+                'posts', [
+                'posts' => $category->posts,
+                'currentCategory' => $category,
+                'categories' => Category::all()
+                ]
+            );
+        }
+    );
+
+
+    Route::get(
+        'authors/{author:username}', function (User $author) {
+            return view(
+                'posts', [
+                'posts' => $author->posts,
+                'categories' => Category::all()
+                ]
+            );
+        }
+    );

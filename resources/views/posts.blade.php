@@ -1,4 +1,4 @@
-@props(['posts'])
+@props(['posts', 'categories'])
 
 <x-layout>
     <!-- include the partial for the header -->
