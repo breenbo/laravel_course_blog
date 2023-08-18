@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
@@ -16,36 +17,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// named route
-Route::get(
-    '/', function () {
-        return view(
-            'posts', [
-                //
-                // pass data through routes
-                //
-                'posts' => Post::latest()->get(),
-                'categories' => Category::all()
-            ]
-        );
-    }
-)-> name('home');
+    // named route
+    Route::get('/', [PostController::class, 'index']) -> name('home');
 
     //
     // {post} is a variable called slug, and used in the callback function
     //
-    Route::get(
-        'posts/{post:slug}', function (Post $post) {
-            //
-            // Find a post by slug and pass it to a view called "post"
-
-            return view(
-                'post', [
-                'post' => $post
-                ]
-            );
-        }
-    );
+    Route::get('posts/{post:slug}', [PostController::class, 'show']);
 
 
     Route::get(
