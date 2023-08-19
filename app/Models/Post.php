@@ -34,14 +34,38 @@ class Post extends Model
 
     //
     // Post::newQuery()->filter()
-    public function scopeFilter($query, array $filters)
+    public function scopeFilter($query, array $filters): void
     {
+        //
         // same as commented below
         //
         $query -> when(
-            $filters['search'] ?? false, fn($query, $search) => $query
-                ->where('title', 'like', '%' . $search . '%')
-                ->orWhere('body', 'like', '%' . $search . '%')
+            $filters['search'] ?? false, fn($query, $search) => $query->where(
+                fn($query) =>
+                    $query->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('body', 'like', '%' . $search . '%')
+            )
+        );
+
+        //
+        // search for a specific category in the post table
+        //
+        $query -> when(
+            $filters['category'] ?? false, fn($query, $category) => $query
+                -> whereHas(
+                    'category',
+                    fn($query) => $query -> where('slug', $category)
+                )
+        );
+        //
+        // search by author
+        //
+        $query -> when(
+            $filters['author'] ?? false, fn($query, $author) => $query
+                -> whereHas(
+                    'author',
+                    fn($query) => $query -> where('username', $author)
+                )
         );
         //
         // if ($filters[ 'search' ] ?? false) {

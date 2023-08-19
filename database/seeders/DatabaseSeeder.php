@@ -18,12 +18,12 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\Category::factory(3)->create();
-        $user = User::factory()->create();
+        // $user = User::factory(10)->create();
 
         \App\Models\Post::factory(10)->create(
-            [
-            'user_id' => $user->id
-            ]
+            // [
+            // 'user_id' => $user->id
+            // ]
         );
 
         // \App\Models\User::factory()->create([

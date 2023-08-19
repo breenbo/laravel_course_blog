@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Contracts\View\View;
 
@@ -12,9 +11,10 @@ class PostController extends Controller
     public function index()
     {
         return view(
-            'posts', [
-            'posts' => Post::latest()->filter(request(['search']))->get(),
-            'categories' => Category::all(),
+            'posts.index', [
+                'posts' => Post::latest()
+                    ->filter(request(['search', 'category', 'author']))
+                    ->get(),
             ]
         );
     }
@@ -22,7 +22,7 @@ class PostController extends Controller
     public function show(Post $post): View
     {
         return view(
-            'post', [
+            'posts.show', [
             'post' => $post
             ]
         );
