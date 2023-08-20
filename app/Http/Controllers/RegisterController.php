@@ -39,7 +39,10 @@ class RegisterController extends Controller
         );
 
         // if validate success, create the user with the attributes returned by the validation
-        User::create($attributes);
+        $user = User::create($attributes);
+
+        // login the user
+        auth() -> login($user);
 
 
         // display a quick success message
