@@ -22,7 +22,7 @@
     </x-slot>
 
     <x-dropdown-item
-        href="/?category={{ $category->slug }}&{{http_build_query(request()->except('category', 'page'))}}"
+        href="/&{{http_build_query(request()->except('category', 'page'))}}"
         :active="request() -> routeIs('home')"
     >
         All
