@@ -3,7 +3,7 @@
 <article class="flex space-x-4 bg-gray-100 border border-gray-200 p-6 rounded-xl">
     <div class="flex-shrink-0">
         <img
-            src="https://i.pravatar.cc/60?u={{ $comment->id }}"
+            src="https://i.pravatar.cc/60?u={{ $comment->user_id }}"
             width="60"
             height="60"
             class="rounded-full"
