@@ -12,6 +12,13 @@ class Post extends Model
 
     protected $with = ['category', 'author'];
 
+
+    public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+
     /**
      * Relationships with category
      *
