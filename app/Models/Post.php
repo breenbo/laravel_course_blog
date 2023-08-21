@@ -10,7 +10,10 @@ class Post extends Model
 {
     use HasFactory;
 
+    // save too many requests
     protected $with = ['category', 'author'];
+    //
+    protected $guarded = [];
 
 
     public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
