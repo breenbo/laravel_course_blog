@@ -18,19 +18,27 @@
             <div class="mt-8 md:mt-0 flex items-center">
                 @guest
 
-                    <a href="/register" class="text-xs font-bold uppercase">Register</a>
-                    <a href="/login" class="ml-6 text-xs font-bold uppercase">Login</a>
+                    <a href="/register" class="text-xs font-bold uppercase {{ request()->is('register') ? 'text-blue-500' : '' }}">Register</a>
+                    <a href="/login" class="ml-6 text-xs font-bold uppercase {{ request()->is('login') ? 'text-blue-500' : '' }}">Login</a>
 
                 @else
-                    <span class="text-xs font-bold uppercase">Welcome, {{auth()->user()->name}}</span>
 
-                    <form method="POST" action="/logout" class="text-xs font-semibold text-blue-500 ml-6">
+                <x-dropdown>
+                    <x-slot name="trigger">
+                        <button class="text-xs font-bold uppercase">Welcome, {{ auth()->user()?->name }}</button>
+                    </x-slot>
 
+                    <x-dropdown-item href="/admin/posts" :active="request()->is('admin/posts')">Dashboard</x-dropdown-item>
+                    <x-dropdown-item href="/admin/posts/create" :active="request()->is('admin/posts/create')">New Post</x-dropdown-item>
+                    <x-dropdown-item href="#" x-data="{}" @click.prevent="document.querySelector('#logout-form').submit()">Log Out</x-dropdown-item>
+
+                    <!-- hidden form to send logout request on click (uses javascript) -->
+                    <form id="logout-form" method="POST" action="/logout" class="hidden">
                         @csrf
-
-                        <button type="submit">Logout</button>
-
                     </form>
+
+                </x-dropdown>
+
                 @endguest
 
                 <a href="#" class="bg-blue-500 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">
@@ -41,7 +49,7 @@
 
         {{ $slot }}
 
-        @if (auth()->user()->username !== 'beru')
+        @if (auth()->user()?->username !== 'beru')
             <footer class="bg-gray-100 border border-black border-opacity-5 rounded-xl text-center py-16 px-10 mt-16">
                 <img src="/images/lary-newsletter-icon.svg" alt="" class="mx-auto -mb-6" style="width: 145px;">
                 <h5 class="text-3xl">Stay in touch with the latest posts</h5>
